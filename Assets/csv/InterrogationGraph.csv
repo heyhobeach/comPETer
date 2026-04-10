@@ -1,0 +1,8 @@
+ID,Type,Speaker,Content,Options(Text:TargetID),SilenceTargetID,TimelineAsset,IsThreatExit
+1,END,,,,,,FALSE
+2,START,,ENTRYPOINT,Next:3,,,FALSE
+3,DIALOGUE,설리번,오늘은 어떤 일인가 리퍼,Next:4,,,FALSE
+4,DIALOGUE,리퍼 ,설리번 당신이 로벨리아에 대한걸 알고 있다는 이야기를 들었어,Next:5,,,FALSE
+5,CHOICE,,,yes:7|no:6,,,FALSE
+6,DIALOGUE,설리번,로벨리아? 난 모르는 일일세,Next:1,,,FALSE
+7,DIALOGUE,,로벨리아 라면 최근에 사진기자와 같이 다닌걸로 보이더군,Next:1,,,FALSE

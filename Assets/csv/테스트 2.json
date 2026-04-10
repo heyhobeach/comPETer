@@ -1,0 +1,73 @@
+{
+    "Nodes": [
+        {
+            "GUID": "d5729f17-9304-40ff-9041-d8ee572a018a",
+            "Type": "Start",
+            "Position": {
+                "x": 100.0,
+                "y": 200.0
+            },
+            "NodeText": "ENTRYPOINT",
+            "SpeakerID": "",
+            "IsThreatExit": false,
+            "TimelineAsset": "",
+            "HasSilenceOption": false
+        },
+        {
+            "GUID": "95d0b697-5911-40bf-a405-85fcdbaf24e9",
+            "Type": "Dialogue",
+            "Position": {
+                "x": 343.0,
+                "y": 201.0
+            },
+            "NodeText": "안녕",
+            "SpeakerID": "철수",
+            "IsThreatExit": false,
+            "TimelineAsset": "",
+            "HasSilenceOption": false
+        },
+        {
+            "GUID": "e2363265-ce76-4f81-9dca-373488d13bcc",
+            "Type": "Dialogue",
+            "Position": {
+                "x": 573.0,
+                "y": 203.0
+            },
+            "NodeText": "철수야 안녕",
+            "SpeakerID": "짱구",
+            "IsThreatExit": false,
+            "TimelineAsset": "",
+            "HasSilenceOption": false
+        },
+        {
+            "GUID": "985895f5-aefe-4f42-b237-8dfa3d610a00",
+            "Type": "End",
+            "Position": {
+                "x": 888.0,
+                "y": 203.0
+            },
+            "NodeText": "",
+            "SpeakerID": "",
+            "IsThreatExit": false,
+            "TimelineAsset": "",
+            "HasSilenceOption": false
+        }
+    ],
+    "Connections": [
+        {
+            "OutputNodeGUID": "d5729f17-9304-40ff-9041-d8ee572a018a",
+            "InputNodeGUID": "95d0b697-5911-40bf-a405-85fcdbaf24e9",
+            "PortName": "Next"
+        },
+        {
+            "OutputNodeGUID": "95d0b697-5911-40bf-a405-85fcdbaf24e9",
+            "InputNodeGUID": "e2363265-ce76-4f81-9dca-373488d13bcc",
+            "PortName": "Next"
+        },
+        {
+            "OutputNodeGUID": "e2363265-ce76-4f81-9dca-373488d13bcc",
+            "InputNodeGUID": "985895f5-aefe-4f42-b237-8dfa3d610a00",
+            "PortName": "Next"
+        }
+    ]
+}

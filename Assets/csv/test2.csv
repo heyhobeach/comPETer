@@ -1,0 +1,5 @@
+ID,Type,Speaker,Content,Options(Text:TargetID),SilenceTargetID,TimelineAsset,IsThreatExit
+1,START,,ENTRYPOINT,Next:2,,,FALSE
+2,DIALOGUE,철수,안녕,Next:3,,,FALSE
+3,DIALOGUE,짱구,철수야 안녕,Next:4,,,FALSE
+4,END,,,,,,FALSE
