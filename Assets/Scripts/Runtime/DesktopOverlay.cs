@@ -1,20 +1,3 @@
-// DesktopOverlay.cs
-// 바탕화면 투명 오버레이 창 관리 스크립트
-// 
-// [사용 Windows API 원리]
-// - user32.dll :: GetActiveWindow()     : 현재 유니티 창의 HWND(핸들)를 가져옵니다.
-// - user32.dll :: SetWindowLong()       : 창의 스타일(GWL_STYLE)과 확장 스타일(GWL_EXSTYLE)을 동적으로 변경합니다.
-//   → WS_POPUP 스타일로 테두리/타이틀바를 제거합니다.
-//   → WS_EX_LAYERED: 창 전체를 레이어드 창으로 만들어 투명도(Alpha) 처리가 가능하게 합니다.
-//   → WS_EX_TRANSPARENT: Hit-Test 메시지를 무시하게 하여, 마우스 클릭이 창을 통과해 뒤 창으로 전달됩니다.
-// - user32.dll :: SetWindowPos()        : 항상 위(HWND_TOPMOST)로 고정하고 위치/크기를 결정합니다.
-// - dwmapi.dll :: DwmExtendFrameIntoClientArea(): DWM(창 관리자)의 프레임을 클라이언트 영역으로 확장해
-//                                                 창 전체를 유리(Aero Glass)처럼 투명하게 만듭니다.
-// - dwmapi.dll :: DwmSetWindowAttribute() + DWM_BLURBEHIND: 창 뒤를 블러/투명 처리합니다.
-//
-// [유니티 Camera 설정 필수 사항]
-// Main Camera → Clear Flags → "Solid Color" → Background Alpha = 0 (완전 투명)
-
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -26,18 +9,18 @@ public class DesktopOverlay : MonoBehaviour
     // ──────────────────────────────────────────────────────────────────────────
 
     // 창 스타일 상수
-    private const int GWL_STYLE   = -16;
+    private const int GWL_STYLE = -16;
     private const int GWL_EXSTYLE = -20;
 
-    private const uint WS_POPUP          = 0x80000000; // 테두리/타이틀바 없는 팝업 창
-    private const uint WS_VISIBLE        = 0x10000000;
-    private const uint WS_EX_LAYERED     = 0x00080000; // 레이어드 창(투명도 지원)
+    private const uint WS_POPUP = 0x80000000; // 테두리/타이틀바 없는 팝업 창
+    private const uint WS_VISIBLE = 0x10000000;
+    private const uint WS_EX_LAYERED = 0x00080000; // 레이어드 창(투명도 지원)
     private const uint WS_EX_TRANSPARENT = 0x00000020; // 마우스 클릭 관통
 
     // SetWindowPos 플래그
     private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1); // 항상 위
-    private const uint SWP_NOMOVE    = 0x0002;
-    private const uint SWP_NOSIZE    = 0x0001;
+    private const uint SWP_NOMOVE = 0x0002;
+    private const uint SWP_NOSIZE = 0x0001;
     private const uint SWP_FRAMECHANGED = 0x0020; // 스타일 변경 후 프레임 갱신
 
     // DWM 구조체
@@ -46,10 +29,10 @@ public class DesktopOverlay : MonoBehaviour
 
     // user32.dll
     [DllImport("user32.dll")] private static extern IntPtr GetActiveWindow();
-    [DllImport("user32.dll")] private static extern int   SetWindowLong(IntPtr hwnd, int nIndex, uint dwNewLong);
-    [DllImport("user32.dll")] private static extern uint  GetWindowLong(IntPtr hwnd, int nIndex);
-    [DllImport("user32.dll")] private static extern bool  SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
-    [DllImport("user32.dll")] private static extern bool  ShowWindow(IntPtr hwnd, int nCmdShow);
+    [DllImport("user32.dll")] private static extern int SetWindowLong(IntPtr hwnd, int nIndex, uint dwNewLong);
+    [DllImport("user32.dll")] private static extern uint GetWindowLong(IntPtr hwnd, int nIndex);
+    [DllImport("user32.dll")] private static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
+    [DllImport("user32.dll")] private static extern bool ShowWindow(IntPtr hwnd, int nCmdShow);
 
     // dwmapi.dll — 창 전체를 투명하게 처리
     [DllImport("dwmapi.dll")] private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS pMarInset);
@@ -70,7 +53,7 @@ public class DesktopOverlay : MonoBehaviour
     // ──────────────────────────────────────────────────────────────────────────
 
     private IntPtr _hwnd = IntPtr.Zero;
-    private bool   _isClickThrough = false;
+    private bool _isClickThrough = false;
 
     // ──────────────────────────────────────────────────────────────────────────
     // Unity Lifecycle
