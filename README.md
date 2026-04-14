@@ -1,2 +1,7 @@
-# TextNode_Application
+# comPETer
+# 한글 명 : 미정
 
+---
+시작일
+
+2026.04.05 ~ 
