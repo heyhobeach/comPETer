@@ -61,27 +61,12 @@ public class DesktopOverlay : MonoBehaviour
 
     private void Start()
     {
-#if !UNITY_EDITOR && UNITY_STANDALONE_WIN
+    #if !UNITY_EDITOR && UNITY_STANDALONE_WIN
         _hwnd = GetActiveWindow();
-        if (_hwnd == IntPtr.Zero)
-        {
-            Debug.LogError("[DesktopOverlay] 윈도우 핸들을 가져오지 못했습니다.");
-            return;
-        }
-
-        ApplyBorderlessWindow();
-        ApplyDwmTransparency();
-
-        if (alwaysOnTop)
-            ApplyAlwaysOnTop();
-
-        if (enableClickThrough)
-            SetClickThrough(true);
-
-        Debug.Log("[DesktopOverlay] 투명 오버레이 창 설정 완료.");
-#else
-        Debug.LogWarning("[DesktopOverlay] 이 기능은 Windows 빌드에서만 동작합니다. (에디터 무시)");
-#endif
+        
+        // 창 숨기기 (렌더링은 RenderTexture로 분리)
+        ShowWindow(_hwnd, 0); // SW_HIDE = 0
+    #endif
     }
 
     private void Update()
