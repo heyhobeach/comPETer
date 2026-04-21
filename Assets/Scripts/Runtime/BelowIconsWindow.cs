@@ -175,7 +175,7 @@ public class BelowIconsWindow : MonoBehaviour
 
     IntPtr GetWorkerW()
     {
-        IntPtr progman = FindWindow("Progman", null);
+        IntPtr progman = FindWindow("Progman", null);//바탕화면 관리자 창 찾기
         if (progman == IntPtr.Zero) return IntPtr.Zero;
 
         SendMessageTimeout(progman, 0x052C, UIntPtr.Zero,     IntPtr.Zero,  0, 1000, out _);

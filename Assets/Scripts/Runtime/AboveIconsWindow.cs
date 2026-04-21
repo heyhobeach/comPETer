@@ -95,12 +95,13 @@ public class AboveIconsWindow : MonoBehaviour
         _readback = new Texture2D(_w, _h, TextureFormat.BGRA32, false);
 
         if (aboveIconsCamera != null)
-            aboveIconsCamera.targetTexture = _rt;
+            aboveIconsCamera.targetTexture = _rt;//카메라에 renderTexture 할당
 
         CreateOverlayWindow();
     }
 
     // RenderTexture → Win32 창으로 매 프레임 복사
+    //유니티의 랜더링이 끝난 후 실행 됨
     void LateUpdate()
     {
         if (_overlayHwnd == IntPtr.Zero) return;
@@ -127,22 +128,22 @@ public class AboveIconsWindow : MonoBehaviour
     {
         _wndProc = (hwnd, msg, wp, lp) => DefWindowProc(hwnd, msg, wp, lp);
 
-        var wc = new WNDCLASSEX
+        var wc = new WNDCLASSEX//일종의 핸들생성
         {
             cbSize       = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
             lpfnWndProc  = Marshal.GetFunctionPointerForDelegate(_wndProc),
             lpszClassName = "UnityAboveIcons"
         };
-        RegisterClassEx(ref wc);
+        RegisterClassEx(ref wc);//핸들 등록?
 
         _overlayHwnd = CreateWindowEx(
-            WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST,
-            "UnityAboveIcons", "",
-            WS_POPUP,
-            0, 0, _w, _h,
-            IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST,//투명, 클릭 관통, 아이콘 위 설정
+            "UnityAboveIcons", "",//클래스 이름 및 창 제목 (보이지 않으므로 빈 문자열)
+            WS_POPUP,//보더리스 팝업 스타일
+            0, 0, _w, _h,//화면 전체 크기로 생성
+            IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);//부모 창 없음, 메뉴 없음, 인스턴스 핸들 없음, 추가 매개변수 없음
 
-        // 아이콘 위 레이어에 고정
+        // 아이콘 위 레이어에 고정,SetWindowPos 함수는 창 크기 및 위치를 설정하는데 사용됩니다. 여기서는 SWP_NOMOVE와 SWP_NOSIZE 플래그를 사용하여 창의 위치와 크기를 변경하지 않고, SWP_NOACTIVATE 플래그로 창이 활성화되지 않도록 합니다.
         SetWindowPos(_overlayHwnd, HWND_TOPMOST, 0, 0, _w, _h,
                      SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
@@ -153,6 +154,7 @@ public class AboveIconsWindow : MonoBehaviour
 
     void BlitToOverlay(byte[] pixels)
     {
+        //getDC로 화면 DC 얻고, CreateCompatibleDC로 메모리 DC 생성
         IntPtr screenDC = GetDC(IntPtr.Zero);
         IntPtr memDC    = CreateCompatibleDC(screenDC);
 
