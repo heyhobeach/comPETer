@@ -29,6 +29,9 @@ public class DesktopOverlay : MonoBehaviour
     private const uint EVENT_SYSTEM_FOREGROUND = 0x0003; // 다른 창이 포커스 받을 때
     private const uint EVENT_OBJECT_REORDER    = 0x8004; // Z-order 변경될 때
     private const uint WINEVENT_OUTOFCONTEXT   = 0x0000;
+    
+    private const uint WS_EX_TOOLWINDOW = 0x00000080; // Alt+Tab 목록에서 숨김
+    private const uint WS_EX_APPWINDOW  = 0x00040000; // 작업 표시줄 표시 여부
 
     // DWM 구조체
     [StructLayout(LayoutKind.Sequential)]
@@ -150,8 +153,13 @@ public class DesktopOverlay : MonoBehaviour
             Debug.LogError($"[DesktopOverlay] DwmExtendFrameIntoClientArea 실패. HRESULT: {hr}");
 
         // WS_EX_LAYERED 추가 — 레이어드 창 활성화
+        // WS_EX_TOOLWINDOW 추가 — Alt+Tab 목록에서 숨김
+        // WS_EX_APPWINDOW 제거 — 작업 표시줄에서도 숨김
         uint exStyle = GetWindowLong(_hwnd, GWL_EXSTYLE);
-        SetWindowLong(_hwnd, GWL_EXSTYLE, exStyle | WS_EX_LAYERED);
+        exStyle  |= WS_EX_LAYERED | WS_EX_TOOLWINDOW;
+        exStyle  &= ~WS_EX_APPWINDOW;
+        SetWindowLong(_hwnd, GWL_EXSTYLE, exStyle);
+
         Debug.Log("[DesktopOverlay] DWM 투명 처리 완료.");
     }
 
