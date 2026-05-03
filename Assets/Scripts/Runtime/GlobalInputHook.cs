@@ -173,12 +173,15 @@ public class GlobalInputHook : MonoBehaviour
             bool right  = mouse.rightButton.wasPressedThisFrame;
             bool middle = mouse.middleButton.wasPressedThisFrame;
 
+
+            var pos = mouse.position.ReadValue();
+
             if (left || right || middle)
             {
                 _lastMsLogTime = now;
                 string btn = left ? "좌" : right ? "우" : "중간";
-                var pos = mouse.position.ReadValue();
                 string msg = $"[에디터] 마우스 {btn}클릭됨 @ ({pos.x:F0}, {pos.y:F0})";
+                
                 Debug.Log(msg);
                 if (showOnScreenLog) PushLog(msg);
             }

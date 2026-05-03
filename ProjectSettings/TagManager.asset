@@ -34,12 +34,21 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - AboveIcons
-  - BelowIcons
+  - DynamicLayer
+  - MiddleLayer
+  - BackgroundLayer
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2827539189
+    locked: 0
+  - name: Middle
+    uniqueID: 343918357
+    locked: 0
+  - name: Dynamic
+    uniqueID: 3321940077
     locked: 0
   m_RenderingLayers:
   - Default
